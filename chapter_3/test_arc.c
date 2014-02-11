@@ -1,0 +1,60 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<GL/glu.h>
+#include<GL/glut.h>
+#include<GL/gl.h>
+#include"function.h"
+const screenWidth =  700;
+const screenHeight = 700;
+void myInit()
+{
+	glClearColor(1.0,1.0,0.0,0.0);       
+	glColor3f(0.0, 0.0, 0.0);         
+	glPointSize(5.0);                   
+	setWindow(0.0,screenWidth,0.0,screenHeight);
+	setViewport(0.0,screenWidth,0.0,screenHeight);	
+	
+}
+
+void drawArc(double x, double y,double angle_start,double angle_end, float radius) 
+{
+	float angle;
+	glBegin(GL_LINE_STRIP);
+	int i;
+	for(i= 0; i < 100; i++) 
+	{
+		angle = i*2*M_PI/100;
+		if(angle >= angle_start && angle <= angle_end)
+	        glVertex2f(x + (cos(angle) * radius), y + (sin(angle) * radius));
+	}
+	glEnd();
+} 
+
+
+void myDisplay()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glBegin(GL_LINE_STRIP);
+	glVertex2f(100,310);
+	glVertex2f(100,150);
+	glVertex2f(400,150);
+	glVertex2f(400,300);
+	glEnd();
+	drawArc(250,300,0.0,M_PI/4,150);
+	drawArc(400,550,M_PI,3*M_PI/2,150);
+	drawArc(250,300,3*M_PI/4,M_PI,150);
+	drawArc(100,550,3*M_PI/2,2*M_PI,150);
+	
+}
+
+void main(int argc,char **argv)
+{
+	glutInit(&argc,argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+	glutInitWindowSize(screenWidth,screenHeight);
+	glutInitWindowPosition(100,100);
+	glutCreateWindow("logistic");
+	glutDisplayFunc(myDisplay);
+	myInit();
+	glutMainLoop();
+}
